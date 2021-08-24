@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<img src="http://www.jaymaron.com/bullet/candle.flame.png" width="100">
+		<title>Fire App (Beta v1.0)</title>
+	</head>
+	<body>
+		<h1>Cockpit</h1>
+		<h2>Welcome to the Fire App {{beta_version}} cockpit.</h2>
+		<p>Path you entered:</p>
+		<ul>
+			<li><b>Path : </b>{{pt}}</li>
+			<li><b>Title : </b>{{nm}}</li>
+		</ul>
+		<h1>What would you like to do ?</h1>	
+		<form action='#' method="post">
+			<label>If the table is in the original South Europe CPR format : </label><br><br>
+			<p><i>*** ONLY USE ONCE AND ON ORIGINAL TABLES ONLY</i></p>
+			<p>Make sure the input and target Excel files aren't open before you execute to avoid permission errors</p>
+			<p>Estimated processing time: less than 20s, do not refresh your browser.</p>
+			<input type="submit" name="submit" value="Clean table"><br>
+			<br>
+			<br>
+			<label>If the table was cleaned : </label><br><br>						
+			<input type="submit" name="submit" value="Display table"><br>
+			<br>
+			<input type="submit" name="submit" value="Display statistics"><br>
+			<br>
+			<input type="submit" name="submit" value="Search engine"><br>
+			<br>
+			<br>		
+		</form>
+	</body>
+	<footer>
+	</footer>
+</html>

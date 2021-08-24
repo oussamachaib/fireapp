@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<img src="http://www.jaymaron.com/bullet/candle.flame.png" width="100">
+		<title>Fire App (Beta v1.0)</title>
+	</head>
+	<body>
+		<h1>Cockpit</h1>
+		<h2>Welcome to the Fire App {{beta_version}} cockpit.</h2>
+		<p>All the forms herewith are case sensitive.</p>
+		<p>Please fill the required fields with the values corresponding to the data as it was recorded on the Excel file.</p>
+		<p>This includes lower or upper-case letters as well as spaces and special characters.</p>
+		<p>Example:</p>
+		<ul>
+			<li><b>Path : </b>C:\Users\chaibou001\python-virtual-environments</li>
+			<li><b>Title : </b>CleanData</li>
+			<li><b>Sheet : </b><i>(The code will be default select the first sheet in your Excel file)</i></li>
+		</ul>
+		<br>
+		<br>
+		<form autocomplete="on" method="post">
+			<label>Enter Excel path:</label><br>
+			<input type="text" name="pt">
+			<br>		
+			<label>Enter Excel file name:</label><br>
+			<input type="text" name="nm">
+			<br><br><br>					
+			<input type="submit" name="submit" value="Submit"><br>
+			<br>
+		</form>
+	</body>
+</html>
