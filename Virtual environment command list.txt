@@ -1,2 +1,5 @@
 cd python-virtual-environments && venv\Scripts\activate && python3 main.py
 cd Documents\GitHub\fireapp && venv\Scripts\activate && python3 main.py
+
+macOS:
+cd /Users/oussamachaib/Documents/GitHub/fireapp && source venv/Scripts/activate && python3 main.py

@@ -74,11 +74,11 @@ def read_table_pandas_clean(p,title,sheet_name):
 '''
 
 
-def read_table_dirty(p,title):
+def read_table_dirty(path):
     print('Reading file...')
     tic=time.time()
     # read excel sheet, skips first 7 lines
-    df = pd.read_excel(p+'\\'+title+'.xlsx',0,skiprows=6)
+    df = pd.read_excel(path,0,skiprows=6)
     # clean columns
     df.columns=clean_columns
     elapsed= time.time()-tic
@@ -86,11 +86,11 @@ def read_table_dirty(p,title):
     return(df)
 
 
-def read_table(path,title):
+def read_table(path):
     print('Reading file...')
     tic=time.time()
     # read excel sheet
-    df = pd.read_excel(path+'\\'+title+'.xlsx',0)
+    df = pd.read_excel(path,0)
     elapsed= time.time()-tic
     print(f'- Successful. Time elapsed: {elapsed:2.3} seconds\n')
     return(df)
@@ -144,7 +144,7 @@ def clean_table(df,path,save_file):
     )
     '''    
     # create excel writer
-    writer = pd.ExcelWriter(path+'\\'+save_file+'.xlsx')
+    writer = pd.ExcelWriter(path+'/'+save_file+'.xlsx')
     # write dataframe to excel sheet named save_file
     df_clean.to_excel(writer,index=False)
     # save the excel file

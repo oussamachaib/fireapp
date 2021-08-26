@@ -21,7 +21,7 @@ from werkzeug.utils import secure_filename
 
 
 #https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/
-UPLOAD_FOLDER = 'Desktop/'
+UPLOAD_FOLDER = '/'
 ALLOWED_EXTENSIONS = {'xlsx'}
 
 app = Flask(__name__)
@@ -73,8 +73,10 @@ def collect():
         nm=request.form["nm"].strip()
         session["pt"]=pt
         session["nm"]=nm
-        ishere=pt+'\\'+nm+'.xlsx'
+        ishere=pt+'\\'+nm+'.xlsx' # I think this is definitely fixable for both windows and macos compatibility, need to look at it further
         ishere=r"{}".format(ishere)
+        ishere=ishere.replace('\\','/')
+        session["fullpath"]=ishere
         if(os.path.isfile(ishere)==True):
             #return render_template("cockpit.html",pt=pt,nm=nm)
             return redirect(url_for("home_cockpit"))                        
@@ -91,15 +93,15 @@ def home_cockpit():
     if request.method == "POST":
         if request.form["submit"] == "Clean table":
             save_name=nm+'_clean'
-            df_dirty=read_table_dirty(pt,nm)
-            placeholder=clean_table(df_dirty,pt,save_name)
+            df_dirty=read_table_dirty(session["fullpath"])
+            placeholder=clean_table(df_dirty,r"{}".format(pt).replace('\\','/'),save_name)
             return render_template("cleaned.html",pt=pt,nm=nm,sv=save_name)        
         elif request.form["submit"] == "Display table":
-            df=read_table(pt,nm)
+            df=read_table(session["fullpath"])
             html=df.to_html()
             return html
         elif request.form["submit"] == "Display statistics":
-            df=read_table(pt,nm)
+            df=read_table(session["fullpath"])
             a,b,c,d=statistics(df)                                              
             b=b.to_frame()
             c=c.to_frame()
@@ -129,7 +131,7 @@ def search_engine():
         site=request.form["site"].replace(' ','')
         cable=request.form["cable"].strip().upper().replace(',','.').replace(' AS ',' (AS) ').replace('1000V','1KV').replace('1000 V','1KV')
         compound=request.form["compound"].replace(' ','').replace('(','').replace(')','').replace(',','.').upper()
-        df=read_table(pt,xl_nm)
+        df=read_table(session["fullpath"])
         df_target=search(df,site,cable,compound)
         table=df_target.to_html()
         return render_template("search_engine_display.html",i=table)
@@ -161,7 +163,7 @@ def plotting():
         pt=session["pt"]
         xl_nm=session["nm"]
         # read table
-        df=read_table(pt,xl_nm)
+        df=read_table(session["fullpath"])
         # read site, cable, and compound data
         site=request.form["site"].replace(' ','')
         cable=request.form["cable"].strip().upper().replace(',','.').replace(' AS ',' (AS) ').replace('1000V','1KV').replace('1000 V','1KV')
