@@ -13,6 +13,8 @@ from openpyxl import* #modules import
 import pandas as pd
 from pandas import ExcelWriter
 from pandas import ExcelFile
+from matplotlib.pyplot import*
+import datetime
 
 #path='C:\\Users\\chaibou001\\Desktop\\Rotation R&D\\Raw_data'
 
@@ -98,11 +100,38 @@ def clean_table(df,path,save_file):
     tic=time.time()
     # create a new dataframe clean of lines with no cable name or humidity
     # deletes: (1) repeated lines due to merging (2) lines with no useful data (3) last empty block of lines
-    df_clean=df.loc[(pd.isnull(df['Cable'])==False) & (pd.isnull(df['Humidity'])==False)]
+    df_clean=df.loc[(pd.isnull(df['Cable'])==False) & (pd.isnull(df['Humidity'])==False)  & (pd.isnull(df['Temperature'])==False) ]
+    df_clean=df_clean[df_clean['Humidity']!='-']
+    df_clean=df_clean[df_clean['Temperature']!='--']
+    df_clean=df_clean[df_clean['Temperature']!='??']
+    df_clean=df_clean[df_clean['Temperature']!='NC']   
+    df_clean=df_clean[df_clean['Humidity']!='-']
+    df_clean=df_clean[df_clean['Humidity']!='--']
+    df_clean=df_clean[df_clean['Humidity']!='??']
+    df_clean=df_clean[df_clean['Humidity']!='NC']
+ 
+    df_clean['Temperature']=df_clean['Temperature'].str.replace(',','.')
+    df_clean['Humidity']=df_clean['Humidity'].str.replace(',','.')
+
+    
+    df_clean=df_clean[df_clean['FS']!='-']
+    df_clean=df_clean[df_clean['FS']!='--']
+    df_clean=df_clean[df_clean['FS']!='??']
+    df_clean=df_clean[df_clean['THR1200s']!='-']    
+    df_clean=df_clean[df_clean['THR1200s']!='--']
+    df_clean=df_clean[df_clean['THR1200s']!='??']
+
+    df_clean=df_clean[df_clean['FIGRA']!='-']
+    df_clean=df_clean[df_clean['FIGRA']!='--']
+    df_clean=df_clean[df_clean['FIGRA']!='??']
+    df_clean=df_clean[df_clean['FS']!='-']    
+    df_clean=df_clean[df_clean['HRRmax']!='--']
+    df_clean=df_clean[df_clean['HRRmax']!='??']
+    
     # remove spaces (x here is a column, we can add index=1 if we want to navigate through rows)    
     df_clean['Cable']=df_clean['Cable'].str.strip().str.upper().str.replace(',','.').str.replace(' AS ',' (AS) ').str.replace('1000V','1KV').str.replace('1000 V','1KV')
     df_clean['Compound']=df_clean['Compound'].str.replace(' ','').str.replace('(','').str.replace(')','').str.replace(',','.').str.upper()
-    df_clean['Laboratory']=df_clean['Laboratory'].str.replace(' ','')
+
     '''
     df_clean['Cable']=df_clean['Cable'].apply(
     lambda x: x.str.strip() if type(x)==string
@@ -160,14 +189,34 @@ def search(df,site,cable,compound):
         if(k!=''):
             df_target=df_target[df_target[a[k]]==k]
     return(df_target)
-    
+
+#r"""
+def plot_data(df,site,cable,compound,y,x,l):
+    #df=read_table(r'C:\Users\chaibou001\Desktop','Relations essais_clean')
+    a={site: 'Laboratory', cable: 'Cable', compound: 'Compound'}
+    df_target=df
+    # Filter based on site + cable + compound
+    for j,k in enumerate([site, cable, compound]):
+        if(k!=''):
+            df_target=df_target[df_target[a[k]]==k]
+    # Filter based on x,y,l
+    if(y=='HRRpeak'):
+        y='HRRmax'
+    y_axis=df_target[y]
+    x_axis=df_target[x]
+    if l!='nolegend':
+        l_arr=df_target[l]
+    else:
+        l_arr=0
+    return x_axis, y_axis, l_arr
+
 
 ################## Scripts in Openpyxl #####################
 
 # Function: Reads an Excel (.xlsx) file and ports it into your code
 # Input: Title of the Excel file containing the data (has to be in the path)
 # Output: List that contains Excel sheet data   
-'''    
+'''
 def read_table(title):
     tic=time.time()
     file_name='\\'+title+'.xlsx'    

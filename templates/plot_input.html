@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<img src="http://www.jaymaron.com/bullet/candle.flame.png" width="100">
+		<title>Fire App (Beta v1.0)</title>
+	</head>
+	<body>
+		<h1>Cockpit</h1>
+		<h2>Welcome to the Fire App cockpit.</h2>
+		<p>All the forms herewith are case sensitive.</p>
+		<p>Please fill the required fields with the values corresponding to the data as it was recorded on the Excel file.</p>
+		<p>This includes lower or upper-case letters as well as spaces and special characters.</p>
+		<p><i>If the x-axis ticks on the obtained graph look scuffed, you might want to double check the syntax of the temperature and humidity columns in your Excel spreadsheet. Beware of swapping commmas and dots, adding non-numerical characters (such as "NC", "--", "-") on a (normally) numerical series column :)</i></p>
+		<br>
+		<br>
+		<form autocomplete="on" method="post">
+			<h3>Cable data</h3>
+			<br>
+			<p>Leave field empty if indifferent.</p>
+			<br>
+			<label>Enter site name:</label><br>
+			<input type="text" name="site">
+			<br>			
+			<label>Enter cable name:</label><br>
+			<input type="text" name="cable">
+			<br>		
+			<label>Enter compound name:</label><br>
+			<input type="text" name="compound">	
+			<br><br><br>
+			<h3>Plot data</h3>
+			<p>All fields are mandatory.</p>	
+			<br>
+			<p>Y-axis:</p>
+			<input type="radio" value="FS" name="y">
+			<label>Flame spread</label><br>
+			<input type="radio" value="THR1200s" name="y">
+			<label>THR1200s</label><br>
+			<input type="radio" value="HRRpeak" name="y">
+			<label>HRRpeak</label><br>
+			<input type="radio" value="FIGRA" name="y">
+			<label>FIGRA</label><br>
+			<br>
+			<p>X-axis:</p>
+			<input type="radio" value="Temperature" name="x">
+			<label>Temperature</label><br>
+			<input type="radio" value="Humidity" name="x">
+			<label>Relative humidity</label><br>
+			<br>
+			<p>Legend:</p>
+			<input type="radio" value="nolegend" name="legend">
+			<label>No legend</label><br>
+			<input type="radio" value="Diameter" name="legend">
+			<label>Diameters</label><br>
+			<input type="radio" value="Test date" name="legend">
+			<label>Dates</label><br>			
+			<br><br><br>					
+			<input type="submit" name="submit" value="Submit"><br>
+			<br>
+		</form>
+	</body>
+</html>
