@@ -17,15 +17,54 @@ import os as os
 from flask import Flask, render_template, redirect, url_for, request, session
 from io import*
 import base64
+from werkzeug.utils import secure_filename
+
+
+#https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/
+UPLOAD_FOLDER = 'Desktop/'
+ALLOWED_EXTENSIONS = {'xlsx'}
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 v=1.2
 app.secret_key = "super secret key"
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/")
 def homepage():
     return render_template("index.html",beta_version='v'+str(v))
+
+@app.route("/get_host", methods=["POST","GET"])
+def get_host():
+    if request.method=="POST":
+        host_type=request.form["host"]
+        if host_type=="local":
+            return redirect(url_for("collect"))
+        else:
+            return redirect(url_for("collect2"))
+    else:
+        return render_template("get_host.html")
+
+
+@app.route("/collect_data2", methods=["POST","GET"])
+def collect2():
+    if request.method == "POST":
+        uploaded_file = request.files['myfile']
+        if uploaded_file.filename != '':
+            uploaded_file.save(uploaded_file.filename)
+            filename = secure_filename(uploaded_file.filename)
+            uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            pt=os.path.join(app.config['UPLOAD_FOLDER'])
+            nm=filename
+            redirect(url_for("home_cockpit"))
+        else:
+            return render_template("collect2.html")
+    return render_template("collect2.html")
+    
+
 
 @app.route("/collect_data", methods=["POST","GET"])
 def collect():
@@ -38,8 +77,7 @@ def collect():
         ishere=r"{}".format(ishere)
         if(os.path.isfile(ishere)==True):
             #return render_template("cockpit.html",pt=pt,nm=nm)
-            return redirect(url_for("home_cockpit"))
-                        
+            return redirect(url_for("home_cockpit"))                        
         else:
             return render_template("collect.html")
     else:
