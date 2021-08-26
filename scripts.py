@@ -101,18 +101,18 @@ def clean_table(df,path,save_file):
     # create a new dataframe clean of lines with no cable name or humidity
     # deletes: (1) repeated lines due to merging (2) lines with no useful data (3) last empty block of lines
     df_clean=df.loc[(pd.isnull(df['Cable'])==False) & (pd.isnull(df['Humidity'])==False)  & (pd.isnull(df['Temperature'])==False) ]
-    df_clean=df_clean[df_clean['Humidity']!='-']
+
     df_clean=df_clean[df_clean['Temperature']!='--']
     df_clean=df_clean[df_clean['Temperature']!='??']
     df_clean=df_clean[df_clean['Temperature']!='NC']   
-    df_clean=df_clean[df_clean['Humidity']!='-']
+
     df_clean=df_clean[df_clean['Humidity']!='--']
     df_clean=df_clean[df_clean['Humidity']!='??']
     df_clean=df_clean[df_clean['Humidity']!='NC']
- 
+    '''
     df_clean['Temperature']=df_clean['Temperature'].str.replace(',','.')
     df_clean['Humidity']=df_clean['Humidity'].str.replace(',','.')
-
+    '''
     
     df_clean=df_clean[df_clean['FS']!='-']
     df_clean=df_clean[df_clean['FS']!='--']
