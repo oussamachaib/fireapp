@@ -62,6 +62,8 @@ def collect2():
             print(filename)
             uploaded_file.save(os.path.join(APP_ROOT, filename))
             session["fullpath"]=os.path.join(APP_ROOT, filename)
+            session["pt"]=APP_ROOT
+            session["nm"]=filename
             return redirect(url_for("home_cockpit"))
         else:
             return render_template("collect2.html")
