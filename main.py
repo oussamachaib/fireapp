@@ -21,13 +21,16 @@ from werkzeug.utils import secure_filename
 
 
 #https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/
-UPLOAD_FOLDER = '/'
+UPLOAD_FOLDER = 'tmp/'
 ALLOWED_EXTENSIONS = {'xlsx'}
+
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 v=1.2
 app.secret_key = "super secret key"
+APP_ROOT = os.path.dirname(os.path.abspath(__name__))
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -54,12 +57,12 @@ def collect2():
     if request.method == "POST":
         uploaded_file = request.files['myfile']
         if uploaded_file.filename != '':
-            uploaded_file.save(uploaded_file.filename)
+            #uploaded_file.save(uploaded_file.filename)
             filename = secure_filename(uploaded_file.filename)
-            uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            pt=os.path.join(app.config['UPLOAD_FOLDER'])
-            nm=filename
-            redirect(url_for("home_cockpit"))
+            print(filename)
+            uploaded_file.save(os.path.join(APP_ROOT, filename))
+            session["fullpath"]=os.path.join(APP_ROOT, filename)
+            return redirect(url_for("home_cockpit"))
         else:
             return render_template("collect2.html")
     return render_template("collect2.html")
