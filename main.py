@@ -63,13 +63,12 @@ def collect2():
             uploaded_file.save(os.path.join(APP_ROOT, filename))
             session["fullpath"]=os.path.join(APP_ROOT, filename)
             session["pt"]=APP_ROOT
-            session["nm"]=filename
+            session["nm"]=filename.rsplit('.', 1)[0]
             return redirect(url_for("home_cockpit"))
         else:
             return render_template("collect2.html")
     return render_template("collect2.html")
     
-
 
 @app.route("/collect_data", methods=["POST","GET"])
 def collect():
