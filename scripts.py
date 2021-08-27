@@ -144,7 +144,6 @@ def clean_table(df,path,save_file):
     )
     '''    
     # create excel writer
-    path='C:/Users/chaibou001/Desktop'
     writer = pd.ExcelWriter(path+'/'+save_file+'.xlsx')
     # write dataframe to excel sheet named save_file
     df_clean.to_excel(writer,index=False)
