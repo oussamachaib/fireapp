@@ -142,25 +142,6 @@ def search_engine():
     else:
         return render_template("search_engine.html")
     
-'''
-@app.route('/plotting')
-def plotting():
-    fig=plt.figure()    
-    x=linspace(0,20,21)
-    y=pow(x,2)
-    plt.plot(x,y,'.')
-    title('$y=x^2$')
-    xlabel('x')
-    ylabel('y')
-    img = BytesIO()
-    plt.savefig(img,dpi=500)
-    #img.seek(0) used to select the 0th frame
-    # convert to base64 image
-    plot_url = base64.b64encode(img.getvalue()).decode('utf8')
-    return render_template('plot.html', plot_url=plot_url)
-    #return send_file(img, mimetype='image/png')
-'''
-
 @app.route('/plotting',methods=["POST","GET"])
 def plotting():
     if request.method=="POST":
@@ -240,74 +221,6 @@ def plotting():
         return render_template('plot.html', plot_url=plot_url)
     else:
         return(render_template("plot_input.html"))
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-@app.route('/test_home',methods=['POST','GET'])
-def test_home():
-    if request.method == "POST":
-        bbox2=request.form["box2"]        
-        print(bbox2)
-        #bbox3=request.form["box3"]
-        return redirect(url_for("test_target",text2=str(bbox2)))
-    else:
-        return render_template("test_home.html")
-
-@app.route('/<text2>')
-def test_target(text2):
-    print(text2)
-    return f'<p>{text2}</p>'
-
-@app.route('/test_home2')
-def test_home2():
-    return ("test_home.html")
-    
-
-@app.route('/<path><title><sheet>')
-def read_file(path,title,sheet):
-    #df=read_table_pandas_clean(pt,title,sheet)
-    #return 'OK'
-    print(path)
-    print(title)
-    print(sheet)
-    return f'<p>{path}</p><p>{title}</p><p>{sheet}</p>'
-
-
-
-@app.route('/<location><cable><compound>')
-def disp(location,cable,compound):
-    return f"<p>{urllib.parse.quote(location)}</p><p>{urllib.parse.quote(cable)}</p><p>{urllib.parse.quote(compound)}</p>"
-'''
 
        
 if __name__ == "__main__":
